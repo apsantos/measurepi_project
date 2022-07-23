@@ -1,0 +1,5 @@
+*.ave
+*.data
+*.moves
+*.xyz
+__pycache__
