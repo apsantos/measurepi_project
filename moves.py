@@ -23,6 +23,16 @@ class moves(object):
     -------
     bool
         True if successful, False otherwise.
+	
+	Variables you may use
+    --------------------
+	self.R2 : the radius squared (float)
+	self.box.half_boxlength : half the box length
+	 x_center = self.box.half_boxlength[0]
+	 y_center = self.box.half_boxlength[1]
+	x = ipos[0]
+	y = ipos[1]
+
     """
     return True
 
@@ -40,13 +50,18 @@ class moves(object):
         2: outside circle
 
     """
-    tfrac = rand.random()
     movetype = 0
     if movetype == 0:
       ipos = self.insert()
     is_incircle = self.incircle(ipos)
 
     # update the self.naccept, self.nattempt, pos and ex
+    if is_incircle:
+      self.naccept[movetype] += 1
+      ex[i] = 1
+    else:
+      ex[i] = 2
+    self.nattempt[movetype] += 1
 
   def insert(self):
     """Generate a point in the box
@@ -62,6 +77,10 @@ class moves(object):
     -------
     ipos : numpy array with dimensions (ndim)
         position of test particle
+    rand.uniform(min,max) : gives a number from min to max
+    rand.uniform(self.box.box[0,0],self.box.box[1,0]) : random number from 0 to 1 for x
+	ipos[0] : x position
+	ipos[1] : y position
     """
     ipos = np.zeros((self.box.ndim))
     return ipos
